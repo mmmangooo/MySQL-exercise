@@ -11,11 +11,12 @@ connection = pymysql.connect(
 
 try:
     # Run a query
-    with connection.cursor() as cursor:
-        sql = "SELECT * FROM Artist;"
-        cursor.execute(sql)
-        result = cursor.fetchall()
-        print(result)
+    with connection.cursor(pymysql.cursors.DictCursor) as cursor:
+        rows = [(23, 'Bob'),
+                (24, 'Jim'),
+                (25, 'Fred')]
+        cursor.execute("DELETE FROM Friends WHERE name = 'Bob';")
+        connection.commit()
 finally:
     # Close the connection, regardless of whether the above was successful
     connection.close()
